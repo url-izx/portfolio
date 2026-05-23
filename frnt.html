@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — UI/UX Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-base:    #0C0C0C;
+      --bg-surface: #141414;
+      --bg-card:    #1A1A1A;
+      --bg-elevated:#222222;
+      --border:     #2A2A2A;
+      --border-mid: #333333;
+      --text-primary:   #F0F0F0;
+      --text-secondary: #909090;
+      --text-muted:     #555555;
+      --accent:     #C0C0C0;
+      --accent-dim: #505050;
+      --white: #FFFFFF;
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --radius: 16px;
+      --radius-sm: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-base);
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(12, 12, 12, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10%; right: -5%;
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, #222222 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border-mid);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent-dim);
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em { font-style: italic; color: var(--text-secondary); }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--bg-base);
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      padding: 0.85rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+
+    .btn-ghost:hover { color: var(--text-primary); }
+
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .hero-card-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-stat-row { display: flex; gap: 1.5rem; }
+    .hero-stat { flex: 1; }
+
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .hero-stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    .hero-skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+
+    .skill-tag {
+      font-size: 0.78rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-mid);
+      color: var(--text-secondary);
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+    }
+
+    .hero-card.sm {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+    }
+
+    .availability-dot {
+      width: 8px; height: 8px;
+      background: #5A9A5A;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .availability-text { font-size: 0.85rem; color: var(--text-secondary); }
+
+    /* SECTIONS */
+    section { padding: 6rem 4rem; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    /* ABOUT */
+    .about { background: var(--bg-surface); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 6rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+
+    .about-image-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-image-placeholder svg { width: 80px; height: 80px; opacity: 0.15; }
+
+    .about-image-wrap { position: relative; }
+
+    .about-badge {
+      position: absolute;
+      bottom: 1.5rem; left: -1.5rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-mid);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .about-badge strong { display: block; color: var(--text-primary); font-weight: 500; margin-bottom: 0.1rem; }
+
+    .about-text p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.85; margin-bottom: 1.25rem; }
+
+    .about-tools { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+
+    .about-tools-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .tools-list { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+    .tool-chip {
+      font-size: 0.82rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-mid);
+      color: var(--text-secondary);
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* PROJECTS */
+    .projects { background: var(--bg-base); }
+
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+
+    .projects-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+
+    .project-card:hover { border-color: var(--border-mid); }
+
+    /* CONTACT */
+    .contact { background: var(--bg-surface); }
+
+    .contact-inner { max-width: 720px; margin-top: 3rem; }
+
+    .contact-lead { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: 3rem; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-mid);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--accent-dim);
+      background: var(--bg-elevated);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--text-muted); }
+
+    .form-group select option { background: var(--bg-card); color: var(--text-primary); }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-submit { display: flex; justify-content: flex-start; }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-base);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy { font-size: 0.82rem; color: var(--text-muted); }
+
+    .footer-links { display: flex; gap: 1.5rem; }
+
+    .footer-links a { font-size: 0.82rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text-primary); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content > * { animation: fadeUp 0.6s ease both; }
+    .hero-tag         { animation-delay: 0.1s; }
+    .hero h1          { animation-delay: 0.2s; }
+    .hero-desc        { animation-delay: 0.3s; }
+    .hero-actions     { animation-delay: 0.4s; }
+    .hero-visual      { animation: fadeUp 0.7s 0.3s ease both; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.25rem 2rem; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; }
+      .hero::before { display: none; }
+      .hero-visual { display: none; }
+      section { padding: 4rem 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-badge { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .projects-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+
+    /* SKILLS */
+    .skills { background: var(--bg-base); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color 0.25s;
+    }
+
+    .skill-card:hover { border-color: var(--border-mid); }
+
+    .skill-card-icon {
+      width: 42px; height: 42px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .skill-card-level {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .skill-bar-track {
+      width: 100%;
+      height: 3px;
+      background: var(--bg-elevated);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: var(--accent);
+      transform-origin: left;
+      animation: barGrow 1s ease both;
+    }
+
+    @keyframes barGrow {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    .skill-bar-fill.d1 { animation-delay: 0.05s; }
+    .skill-bar-fill.d2 { animation-delay: 0.15s; }
+    .skill-bar-fill.d3 { animation-delay: 0.25s; }
+    .skill-bar-fill.d4 { animation-delay: 0.35s; }
+    .skill-bar-fill.d5 { animation-delay: 0.45s; }
+    .skill-bar-fill.d6 { animation-delay: 0.55s; }
+
+    @media (max-width: 900px) { .skills-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 560px) { .skills-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Cyrel Martinez</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">UI/UX Designer</div>
+    <h1>Crafting interfaces <em>people</em> love to use</h1>
+    <p class="hero-desc">I design thoughtful digital experiences from wireframe to polished product with a focus on clarity, usability, and visual elegance.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-ghost">Get in touch →</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-card-label">By the numbers</div>
+      <div class="hero-stat-row">
+        <div class="hero-stat">
+          <div class="hero-stat-num">2+</div>
+          <div class="hero-stat-label">Years experience</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">2+</div>
+          <div class="hero-stat-label">Projects shipped</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">6</div>
+          <div class="hero-stat-label">Happy clients</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">Specialties</div>
+      <div class="hero-skill-tags">
+        <span class="skill-tag">Product Design</span>
+        <span class="skill-tag">Design Systems</span>
+        <span class="skill-tag">User Research</span>
+        <span class="skill-tag">Prototyping</span>
+        <span class="skill-tag">Accessibility</span>
+        <span class="skill-tag">Interaction Design</span>
+      </div>
+    </div>
+    <div class="hero-card sm">
+      <div class="availability-dot"></div>
+      <div class="availability-text">Available for freelance &amp; full-time roles</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label">About me</div>
+  <div class="about-grid">
+    <div class="about-image-wrap">
+      <div class="about-image-placeholder">
+        <img src="cyrel.jpg" alt="Cyrel Martinez" style="width:100%; height:100%; object-fit:cover; object-position:center 15%; display:block;" />
+      </div>
+      <div class="about-badge">
+        <strong>Cyrel Martinez</strong>
+        UI/UX Designer · Panabo Davao, PH
+      </div>
+    </div>
+
+    <div class="about-text">
+      <div class="section-title">Designing with purpose,<br>not just pixels</div>
+      <p>I am an Information Systems student with a growing passion for technology, creativity, and continuous learning. I enjoy making simple designs, doing school projects, and improving my skills little by little.</p>
+      <div class="about-tools">
+        <div class="about-tools-label">Tools &amp; Software</div>
+        <div class="tools-list">
+          <span class="tool-chip">Figma</span>
+          <span class="tool-chip">Adobe XD</span>
+          <span class="tool-chip">Illustrator</span>
+          <span class="tool-chip">Maze</span>
+          <span class="tool-chip">Hotjar</span>
+          <span class="tool-chip">Notion</span>
+          <span class="tool-chip">Lottie</span>
+          <span class="tool-chip">Framer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-label">What I work with</div>
+  <div class="section-title">Skills</div>
+  <div class="skills-grid">
+
+    <div class="skill-card">
+      <div class="skill-card-icon">🌐</div>
+      <div class="skill-card-name">HTML</div>
+      <div class="skill-card-level">Advanced · Semantic & Accessible Markup</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill d1" style="width:92%;"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-icon">🎨</div>
+      <div class="skill-card-name">CSS</div>
+      <div class="skill-card-level">Advanced · Layouts, Animations & Variables</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill d2" style="width:88%;"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-icon">⚡</div>
+      <div class="skill-card-name">JavaScript</div>
+      <div class="skill-card-level">Intermediate · DOM, Events & Logic</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill d3" style="width:74%;"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-icon">🅱️</div>
+      <div class="skill-card-name">Bootstrap 5</div>
+      <div class="skill-card-level">Advanced · Responsive Grid & Components</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill d4" style="width:85%;"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-icon">🖌️</div>
+      <div class="skill-card-name">Figma</div>
+      <div class="skill-card-level">Advanced · Prototyping & Design Systems</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill d5" style="width:90%;"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-card-icon">📄</div>
+      <div class="skill-card-name">Google Docs</div>
+      <div class="skill-card-level">Proficient · Documentation & Collaboration</div>
+      <div class="skill-bar-track"><div class="skill-bar-fill d6" style="width:80%;"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="projects-header">
+    <div>
+      <div class="section-label">Selected work</div>
+      <div class="section-title">Projects</div>
+    </div>
+    <a href="#contact" class="btn-ghost" style="font-size:0.85rem;">Interested in working together? →</a>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- PROJECT 1: Sirok -->
+    <div class="project-card">
+      <div style="background: #111111; padding: 3rem 4rem; display: flex; align-items: flex-end; justify-content: center; gap: 2.5rem;">
+        <!-- Splash screen -->
+        <div style="width: 160px; flex-shrink: 0; background: #1A1612; border-radius: 24px; border: 1.5px solid #2E2920; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.7); transform: translateY(12px);">
+          <div style="background: #2A1F0E; padding: 1.25rem 1rem 1.5rem; text-align: center; min-height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">🌿</div>
+            <div style="font-family: var(--font-display); font-size: 1.5rem; color: #F0E6D0; letter-spacing: -0.01em; line-height: 1;">SIROK</div>
+            <div style="font-size: 0.55rem; letter-spacing: 0.18em; color: #B8A882; text-transform: uppercase;">Dine · Chill</div>
+            <div style="font-size: 0.62rem; color: #8A7A60; margin-top: 0.5rem; line-height: 1.5;">Where comfort<br>meets flavor.</div>
+            <div style="margin-top: 1.25rem; background: #C9A96E; border-radius: 100px; padding: 0.45rem 1.1rem; font-size: 0.6rem; color: #2A1F0E; font-weight: 500;">Get started</div>
+          </div>
+        </div>
+        <!-- Login screen -->
+        <div style="width: 175px; flex-shrink: 0; background: #FDFCF9; border-radius: 24px; border: 1.5px solid #333; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+          <div style="height: 70px; background: linear-gradient(135deg, #1A0F05 0%, #2E1A08 30%, #1C1208 55%, #2A1A06 75%, #0E0904 100%); position: relative; overflow: hidden;">
+            <div style="position:absolute;top:-4px;left:28px;width:1px;height:22px;background:rgba(200,150,60,0.5);"></div>
+            <div style="position:absolute;top:18px;left:24px;width:8px;height:8px;border-radius:50%;background:#FFD580;box-shadow:0 0 10px 5px rgba(255,180,60,0.45);"></div>
+            <div style="position:absolute;top:-4px;left:72px;width:1px;height:18px;background:rgba(200,150,60,0.4);"></div>
+            <div style="position:absolute;top:14px;left:68px;width:7px;height:7px;border-radius:50%;background:#FFD580;box-shadow:0 0 8px 4px rgba(255,180,60,0.35);"></div>
+            <div style="position:absolute;top:-4px;left:128px;width:1px;height:20px;background:rgba(200,150,60,0.45);"></div>
+            <div style="position:absolute;top:16px;left:124px;width:8px;height:8px;border-radius:50%;background:#FFD580;box-shadow:0 0 10px 5px rgba(255,180,60,0.4);"></div>
+            <div style="position:absolute;bottom:0;left:0;right:0;height:24px;background:linear-gradient(to top,rgba(60,35,8,0.7),transparent);"></div>
+            <div style="position:absolute;bottom:2px;right:12px;width:18px;height:12px;background:rgba(40,70,25,0.55);border-radius:50% 0 50% 0;transform:rotate(-20deg);"></div>
+            <div style="position:absolute;bottom:5px;right:24px;width:12px;height:8px;background:rgba(40,70,25,0.4);border-radius:0 50% 0 50%;transform:rotate(15deg);"></div>
+          </div>
+          <div style="padding: 1rem 1rem 1.25rem; text-align: center;">
+            <div style="font-size: 0.6rem; margin-bottom: 0.15rem;">🏠</div>
+            <div style="font-family: var(--font-display); font-size: 1rem; color: #2A1F0E; margin-bottom: 0.1rem;">Welcome!</div>
+            <div style="font-size: 0.52rem; color: #8A7A60; margin-bottom: 0.75rem;">Log-in to continue your experience</div>
+            <div style="background: #F4F1EC; border: 1px solid #DDD9D0; border-radius: 100px; padding: 0.35rem 0.65rem; font-size: 0.5rem; color: #B0A898; margin-bottom: 0.4rem; text-align: left;">Email</div>
+            <div style="background: #F4F1EC; border: 1px solid #DDD9D0; border-radius: 100px; padding: 0.35rem 0.65rem; font-size: 0.5rem; color: #B0A898; margin-bottom: 0.3rem; text-align: left;">Password</div>
+            <div style="text-align: right; font-size: 0.45rem; color: #8A7A60; margin-bottom: 0.5rem; text-decoration: underline;">Forgot Password?</div>
+            <div style="background: #C9A96E; border-radius: 100px; padding: 0.4rem; font-size: 0.52rem; color: #fff; font-weight: 500; margin-bottom: 0.4rem;">Login</div>
+            <div style="font-size: 0.45rem; color: #B0A898; margin-bottom: 0.4rem;">— or —</div>
+            <div style="border: 1px solid #DDD9D0; border-radius: 100px; padding: 0.35rem; font-size: 0.45rem; color: #5A5550;">G &nbsp;Continue with Google</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 2rem 2.5rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
+        <div>
+          <div style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">Mobile App · Figma Prototype</div>
+          <div style="font-size: 1.3rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.5rem;">Sirok Dine &amp; Chill</div>
+          <div style="font-size: 0.9rem; color: var(--text-secondary); max-width: 540px; line-height: 1.7;">A full Figma prototype for a restaurant mobile app — from splash screen to login flow. Designed with a warm, earthy visual identity that reflects the brand's "comfort meets flavor" concept.</div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">Mobile UI</span>
+            <span class="skill-tag">Prototyping</span>
+            <span class="skill-tag">Branding</span>
+          </div>
+        </div>
+        <a href="#" class="btn-primary" style="flex-shrink: 0; white-space: nowrap;">View Prototype ↗</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 2: Decadent Dessert Dream -->
+    <div class="project-card">
+      <div style="background: #111111; padding: 3rem 4rem; display: flex; align-items: flex-end; justify-content: center; gap: 2rem;">
+        <!-- Product listing mockup -->
+        <div style="width: 220px; flex-shrink: 0; background: #1A1A1A; border-radius: 20px; border: 1.5px solid #2A2A2A; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.6); transform: translateY(8px);">
+          <!-- nav bar -->
+          <div style="background: #0E0E0E; padding: 0.6rem 0.85rem; display: flex; gap: 0.8rem; align-items: center; border-bottom: 1px solid #222;">
+            <div style="width: 6px; height: 6px; border-radius: 50%; background: #3A3A3A;"></div>
+            <div style="flex: 1; height: 5px; background: #2A2A2A; border-radius: 3px;"></div>
+            <div style="font-size: 0.45rem; color: #555; letter-spacing: 0.05em;">Products</div>
+          </div>
+          <!-- product items -->
+          <div style="padding: 0.75rem;">
+            <!-- item 1 -->
+            <div style="background: #222; border-radius: 10px; margin-bottom: 0.5rem; overflow: hidden; display: flex; gap: 0.6rem; align-items: center; padding: 0.5rem;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #3A2A1A, #5C3D20); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1rem;">🍨</div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 0.5rem; color: #CCC; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Create Your Own Sundae</div>
+                <div style="font-size: 0.45rem; color: #888; margin-top: 1px;">$90.00</div>
+              </div>
+            </div>
+            <!-- item 2 -->
+            <div style="background: #222; border-radius: 10px; margin-bottom: 0.5rem; overflow: hidden; display: flex; gap: 0.6rem; align-items: center; padding: 0.5rem;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #1A2A3A, #1E3A5C); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1rem;">🍦</div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 0.5rem; color: #CCC; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Specialty of the Dream</div>
+                <div style="font-size: 0.45rem; color: #888; margin-top: 1px;">$100.00</div>
+              </div>
+            </div>
+            <!-- item 3 -->
+            <div style="background: #222; border-radius: 10px; margin-bottom: 0.5rem; overflow: hidden; display: flex; gap: 0.6rem; align-items: center; padding: 0.5rem;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #1A1A3A, #3A2A5C); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1rem;">🫐</div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 0.5rem; color: #CCC; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Blueberry Ice Cream</div>
+                <div style="font-size: 0.45rem; color: #888; margin-top: 1px;">$150.00</div>
+              </div>
+            </div>
+            <!-- item 4 -->
+            <div style="background: #222; border-radius: 10px; margin-bottom: 0.5rem; overflow: hidden; display: flex; gap: 0.6rem; align-items: center; padding: 0.5rem;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #3A1A2A, #5C1E3A); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1rem;">🌸</div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 0.5rem; color: #CCC; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Sakura Ice Cream</div>
+                <div style="font-size: 0.45rem; color: #888; margin-top: 1px;">$185.00</div>
+              </div>
+            </div>
+            <!-- item 5 -->
+            <div style="background: #222; border-radius: 10px; overflow: hidden; display: flex; gap: 0.6rem; align-items: center; padding: 0.5rem;">
+              <div style="width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #2A3A1A, #3A5C1E); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1rem;">🍧</div>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 0.5rem; color: #CCC; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Mixed Ice Cream</div>
+                <div style="font-size: 0.45rem; color: #888; margin-top: 1px;">$50.00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- About / home page mockup -->
+        <div style="width: 190px; flex-shrink: 0; background: #F9F8F5; border-radius: 20px; border: 1.5px solid #2A2A2A; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+          <div style="background: #1A1208; padding: 0.6rem 0.85rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 0.45rem; color: #C9A96E; font-weight: 600; letter-spacing: 0.04em;">DECADENT DESSERT DREAM</div>
+            <div style="font-size: 0.5rem; color: #8A7A60;">☰</div>
+          </div>
+          <div style="background: linear-gradient(160deg, #1A1208, #2E1F0A); padding: 1rem; text-align: center;">
+            <div style="font-size: 1.6rem; margin-bottom: 0.25rem;">🍨</div>
+            <div style="font-size: 0.65rem; color: #F0E6D0; font-weight: 600; letter-spacing: 0.06em;">Where Sweetness<br>Lives</div>
+            <div style="margin-top: 0.75rem; background: #C9A96E; border-radius: 100px; padding: 0.3rem 0.8rem; font-size: 0.45rem; color: #1A1208; font-weight: 600; display: inline-block;">Explore Menu</div>
+          </div>
+          <div style="padding: 0.75rem 0.85rem;">
+            <div style="font-size: 0.45rem; color: #8A7A60; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem;">Featured</div>
+            <div style="display: flex; gap: 0.4rem;">
+              <div style="flex: 1; background: #F0EDE6; border-radius: 6px; padding: 0.4rem; text-align: center;">
+                <div style="font-size: 0.9rem;">🍧</div>
+                <div style="font-size: 0.4rem; color: #4A3A2A; margin-top: 2px;">Mixed</div>
+                <div style="font-size: 0.4rem; color: #9A8A70;">$50</div>
+              </div>
+              <div style="flex: 1; background: #F0EDE6; border-radius: 6px; padding: 0.4rem; text-align: center;">
+                <div style="font-size: 0.9rem;">🌸</div>
+                <div style="font-size: 0.4rem; color: #4A3A2A; margin-top: 2px;">Sakura</div>
+                <div style="font-size: 0.4rem; color: #9A8A70;">$185</div>
+              </div>
+              <div style="flex: 1; background: #F0EDE6; border-radius: 6px; padding: 0.4rem; text-align: center;">
+                <div style="font-size: 0.9rem;">🫐</div>
+                <div style="font-size: 0.4rem; color: #4A3A2A; margin-top: 2px;">Blueberry</div>
+                <div style="font-size: 0.4rem; color: #9A8A70;">$150</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project info -->
+      <div style="padding: 2rem 2.5rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; flex-wrap: wrap;">
+        <div>
+          <div style="font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;">Google Sites · Web Design</div>
+          <div style="font-size: 1.3rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.5rem;">Decadent Dessert Dream</div>
+          <div style="font-size: 0.9rem; color: var(--text-secondary); max-width: 540px; line-height: 1.7;">A product showcase website for a dessert brand featuring five specialty ice cream creations. Designed with a warm, indulgent aesthetic — complete with product listings, an about page, blog, and contact section.</div>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+            <span class="skill-tag">Google Sites</span>
+            <span class="skill-tag">Web Design</span>
+            <span class="skill-tag">Product Page</span>
+            <span class="skill-tag">IT/IS 111</span>
+          </div>
+        </div>
+        <a href="https://sites.google.com/view/decadentdessertdream/product" target="_blank" class="btn-primary" style="flex-shrink: 0; white-space: nowrap;">Visit Site ↗</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-label">Get in touch</div>
+  <div class="section-title">Let's work together</div>
+  <div class="contact-inner">
+    <p class="contact-lead">Have a project in mind, or just want to say hello? Fill out the form below and I'll get back to you within 24 hours.</p>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="your@email.com" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="subject">What are you looking for?</label>
+        <select id="subject">
+          <option value="" disabled selected>Select a topic</option>
+          <option>Freelance project</option>
+          <option>Full-time opportunity</option>
+          <option>Design consultation</option>
+          <option>Just saying hi</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" placeholder="Tell me about your project or idea..."></textarea>
+      </div>
+      <div class="form-submit">
+        <button class="btn-primary" type="button">Send message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 Cyrel Martinez. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#">Dribbble</a>
+    <a href="#">Behance</a>
+    <a href="#">LinkedIn</a>
+    <a href="#">Resume ↗</a>
+  </div>
+</footer>
+
+</body>
+</html>
